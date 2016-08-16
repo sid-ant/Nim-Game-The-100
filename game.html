@@ -13,7 +13,7 @@ canvas {
 
 <script>
 
-
+var numbersRecord = new Array(1);
 var myGamePiece;
 
 function startGame() {
@@ -25,8 +25,9 @@ var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
         this.canvas.width = 400;
-        this.canvas.height = 470;
+        this.canvas.height = 400;
         this.context = this.canvas.getContext("2d");
+        // what is this supposed to do here? 
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
     },
@@ -60,10 +61,36 @@ function component(width, height, color, x, y,number) {
 function updateGameArea() {
     myGameArea.clear();
     myGamePiece.y+= 1;
+
+    // colision with frame
     if(myGamePiece.y==myGameArea.canvas.height)
     {
       myGamePiece.y = 0;
-      document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + myGamePiece.number;
+      document.getElementById("human").innerHTML = document.getElementById("human").innerHTML + " "+ myGamePiece.number;
+      numbersRecord.push(myGamePiece.number);
+
+      numberElements = numbersRecord.length-1; 
+
+      if(numbersRecord[numberElements]==20)
+      {
+        console.log("Player 1 wins!");
+        alert("Human wins");
+
+      }
+
+      myGamePiece.number += Math.floor((Math.random() * 2) + 1);
+      numbersRecord.push(myGamePiece.number);
+      document.getElementById("computer").innerHTML = document.getElementById("computer").innerHTML + " "+ myGamePiece.number;
+
+      numberElements = numbersRecord.length-1; 
+
+      if(numbersRecord[numberElements]==20)
+      {
+        alert("Computer wins");
+      }
+
+
+      console.log(numbersRecord);
 //       var theDiv = document.getElementById("<ID_OF_THE_DIV>");
 //       var content = document.createTextNode("<YOUR_CONTENT>");
 //        theDiv.appendChild(content);
@@ -88,7 +115,8 @@ function stopAdd(){
 <button onmousedown="addOne()" onmouseup="stopAdd()" ontouchstart="addOne()"> Add One </button>
 <button onmousedown="addTwo()" onmouseup="stopAdd()" ontouchstart="addTwo()"> Add Two </button>
 
-<p id="demo"> </p>
+<p id="human"> Player 1 Moves:  </p>
+<p id="computer"> Computer Moves:  </p>
 
 
 </body>
