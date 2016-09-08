@@ -13,10 +13,13 @@ canvas {
 
 <script>
 
-var numbersRecord = new Array(1);
+var numbersRecord = new Array();
+numbersRecord.push(1);
 var myGamePiece;
 
 function startGame() {
+    
+    //numbersRecord = new Array(1);
     myGamePiece = new component(30, 30, "red", 200, 0,1);
     myGameArea.start();
 }
@@ -29,6 +32,12 @@ var myGameArea = {
         this.context = this.canvas.getContext("2d");
         // what is this supposed to do here? 
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        /*ctxg = this.context; 
+        ctxg.beginPath();
+        ctxg.fillStyle = "blue";
+        ctxg.fill();
+        ctxg.closePath();
+*/        
         this.interval = setInterval(updateGameArea, 20);
     },
     clear : function() {
@@ -99,11 +108,18 @@ function updateGameArea() {
 }
 
 function addOne() {
-  myGamePiece.number+=1;
+    lastnumberIndex = numbersRecord.length-1;
+    console.log(lastnumberIndex);
+    var newNumber = numbersRecord[lastnumberIndex]+1;
+    //console.log(numbersRecord);
+    myGamePiece.number=newNumber;
   }
 
 function addTwo() {
-  myGamePiece.number+=2;
+  var lastnumberIndex = numbersRecord.length-1;
+  var newNumber = numbersRecord[lastnumberIndex]+2;
+  myGamePiece.number=newNumber;
+  
 }
 
 function stopAdd(){
